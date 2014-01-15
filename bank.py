@@ -3,6 +3,7 @@ import time
 import json
 import rubles
 import kt_utils
+import requests
 
 with open('data/users.json') as f:
     db = json.load(f)
@@ -22,6 +23,7 @@ class Bank(object):
         self.mode = ''
         self.context = ''
         self.accounts = db['accounts']
+        self.key = 'dc6zaTOxFJmzC'
 
     def RunFunction(self, Message, Status):
         if Status == 'SENT' or Status == 'RECEIVED':
@@ -34,6 +36,19 @@ class Bank(object):
 
     def parseanswer(self, Message, query):
         pass
+    
+    def giftrans(self):
+        search = self.context.Body.split(' ')[1]
+        r = requests.get("http://api.giphy.com/v1/gifs/translate?s=" + search + "&api_key=" + self.key + "&limit=1")
+        info = r.json()
+        try:
+            url = info['data']['url']
+        except TypeError:
+            self.context.Chat.SendMessage('/me [CamelBot]: Too Complicated of a Gif Search i am in beta , you dun almost crashed me , if sean did not put any error checking!')
+            return
+        self.context.Chat.SendMessage('/me [CamelBot]: gif translation for ' + search + ' is ' + url)
+      
+        
 
     def create(self):
         new = rubles.rubles(self.context.FromHandle, 100)
@@ -106,12 +121,14 @@ class Bank(object):
                      + self.context.FromHandle + ' wrote a check to '
                     + r + ' for [Money]: ' + a + 'rB')
             rub.saveaccount()
+            
 
     functions = {
         '!createaccount': create,
         '!balance': balance,
         '!deleteaccount': delete,
-        '!pay': payto,
+        '!pay':        payto,
+        '@GifTrans':  giftrans,
         }
 
 
