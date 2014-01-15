@@ -24,15 +24,7 @@ class rubles(object):
 	def deleteaccount(self):
 		del self.accounts[self.account_name]
 
-	def pay(self, r, a):
-		if a > self.accounts[self.account_name]:
-			print "inf funds"
-		elif a < 0:
-			print "invalid number"
-		else:
-			self.accounts[self.account_name] += a
-
-
+	
 	#def testnum(self, num):
 		#if num < 0:
 			#print "its negative"
