@@ -116,7 +116,7 @@ class Bank(object):
         else:
             rub = rubles.rubles(self.context.FromHandle, 0)
             self.accounts[self.context.FromHandle] -= int(a)
-            self.accounts[r] += str(a)
+            self.accounts[r] += int(a)
             self.context.Chat.SendMessage('/me [The Kondor Treasury]: User: '
                      + self.context.FromHandle + ' wrote a check to '
                     + r + ' for [Money]: ' + a + 'rB')
