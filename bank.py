@@ -7,6 +7,12 @@ import requests
 
 with open('data/users.json') as f:
     db = json.load(f)
+    
+with open('data/classes.json') as f:
+    classes = json.load(f)
+            
+with open('data/Players.json') as f:
+    player = json.load(f)
 
 
 class Bank(object):
@@ -47,7 +53,22 @@ class Bank(object):
             self.context.Chat.SendMessage('/me [CamelBot]: Too Complicated of a Gif Search i am in beta , you dun almost crashed me , if sean did not put any error checking!')
             return
         self.context.Chat.SendMessage('/me [CamelBot]: gif translation for ' + search + ' is ' + url)
-      
+        
+    
+    def newchar(self):
+        user = self.context.FromHandle
+        pick = self.context.Body.split(' ')[1]
+        lowpick = pick.lower()
+        if lowpick in classes:
+            if lowpick == 'fighter':
+                player['Players'][self.context.FromHandle] = classes['fighter']
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+            elif lowpick == 'mage':
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+            elif lowpick == 'archer':
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+            else:
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + lowpick + ' not found as class')
         
 
     def create(self):
@@ -129,6 +150,7 @@ class Bank(object):
         '!deleteaccount': delete,
         '!pay':        payto,
         '@GifTrans':  giftrans,
+        '!char': newchar,
         }
 
 
