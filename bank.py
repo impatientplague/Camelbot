@@ -7,10 +7,10 @@ import requests
 
 with open('data/users.json') as f:
     db = json.load(f)
-    
+
 with open('data/classes.json') as f:
     classes = json.load(f)
-            
+
 with open('data/Players.json') as f:
     player = json.load(f)
 
@@ -42,34 +42,43 @@ class Bank(object):
 
     def parseanswer(self, Message, query):
         pass
-    
+
     def giftrans(self):
         search = self.context.Body.split(' ')[1]
-        r = requests.get("http://api.giphy.com/v1/gifs/translate?s=" + search + "&api_key=" + self.key + "&limit=1")
+        r = requests.get('http://api.giphy.com/v1/gifs/translate?s='
+                         + search + '&api_key=' + self.key + '&limit=1')
         info = r.json()
         try:
             url = info['data']['url']
         except TypeError:
-            self.context.Chat.SendMessage('/me [CamelBot]: Too Complicated of a Gif Search i am in beta , you dun almost crashed me , if sean did not put any error checking!')
+            self.context.Chat.SendMessage('/me [CamelBot]: Too Complicated of a Gif Search i am in beta , you dun almost crashed me , if sean did not put any error checking!'
+                    )
             return
-        self.context.Chat.SendMessage('/me [CamelBot]: gif translation for ' + search + ' is ' + url)
-        
-    
+        self.context.Chat.SendMessage('/me [CamelBot]: gif translation for '
+                 + search + ' is ' + url)
+
     def newchar(self):
         user = self.context.FromHandle
         pick = self.context.Body.split(' ')[1]
         lowpick = pick.lower()
         if lowpick in classes:
             if lowpick == 'fighter':
-                player['Players'][self.context.FromHandle] = classes['fighter']
-                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+                player['Players'][self.context.FromHandle] = \
+                    classes['fighter']
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: '
+                        + self.context.FromHandle + ' picked the ['
+                        + lowpick + '] class with stats of [NULL]')
             elif lowpick == 'mage':
-                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: '
+                        + self.context.FromHandle + ' picked the ['
+                        + lowpick + '] class with stats of [NULL]')
             elif lowpick == 'archer':
-                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + self.context.FromHandle + ' picked the ' '['+ lowpick + ']'' class with stats of [NULL]')
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: '
+                        + self.context.FromHandle + ' picked the ['
+                        + lowpick + '] class with stats of [NULL]')
             else:
-                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: ' + lowpick + ' not found as class')
-        
+                self.context.Chat.SendMessage('/me [SkyRPG Alpha]: '
+                        + lowpick + ' not found as class')
 
     def create(self):
         new = rubles.rubles(self.context.FromHandle, 100)
@@ -142,14 +151,13 @@ class Bank(object):
                      + self.context.FromHandle + ' wrote a check to '
                     + r + ' for [Money]: ' + a + 'rB')
             rub.saveaccount()
-            
 
     functions = {
         '!createaccount': create,
         '!balance': balance,
         '!deleteaccount': delete,
-        '!pay':        payto,
-        '@GifTrans':  giftrans,
+        '!pay': payto,
+        '@GifTrans': giftrans,
         '!char': newchar,
         }
 
